@@ -1,0 +1,9 @@
+FastAPI is a modern Python web framework for building APIs.
+
+FastAPI is built on Starlette for the web parts and Pydantic for data validation.
+
+FastAPI uses Python type hints to define request and response structures.
+
+FastAPI applications can define routes using decorators such as @app.get() and @app.post().
+
+FastAPI can automatically generate OpenAPI documentation for API endpoints.
