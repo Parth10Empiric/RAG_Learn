@@ -1,13 +1,15 @@
 from embedder import embed_query
-from store import collection
+from store import client, COLLECTION_NAME
 
 
 def retrieve(query: str, top_k:int = 3):
     query_embedding = embed_query(query)
     
-    results = collection.query(
-        query_embeddings=[query_embedding.tolist()],
-        n_results=top_k
+    response = client.query_points(
+        collection_name=COLLECTION_NAME,
+        query=query_embedding.tolist(),
+        limit=top_k,
+        with_payload=True,
     )
 
-    return results
+    return response.points
