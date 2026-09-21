@@ -1,9 +1,884 @@
-FastAPI is a modern Python web framework for building APIs.
+FASTAPI DEVELOPER KNOWLEDGE BASE
 
-FastAPI is built on Starlette for the web parts and Pydantic for data validation.
+==================================================
 
-FastAPI uses Python type hints to define request and response structures.
+1. FASTAPI OVERVIEW
+   ==================================================
 
-FastAPI applications can define routes using decorators such as @app.get() and @app.post().
+FastAPI is a Python web framework designed for building APIs. It uses Python type hints to define API inputs and outputs and integrates those declarations with validation and API documentation.
 
-FastAPI can automatically generate OpenAPI documentation for API endpoints.
+FastAPI applications commonly define routes using decorators such as @app.get(), @app.post(), @app.put(), @app.patch(), and @app.delete().
+
+A basic FastAPI application creates an application object and then defines path operation functions.
+
+Example:
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+async def root():
+return {"message": "Hello World"}
+
+The path operation function can use either async def or def depending on how the code interacts with external libraries.
+
+FastAPI is commonly used for backend services, REST APIs, microservices, machine learning APIs, and AI application backends.
+
+==================================================
+2. FASTAPI APPLICATION OBJECT
+=============================
+
+The FastAPI application object is normally created with:
+
+app = FastAPI()
+
+The application object stores routes, middleware, exception handlers, OpenAPI configuration, and other application-level configuration.
+
+Metadata can also be provided when creating the application. Common metadata includes the application title, description, version, contact information, and license information.
+
+For larger applications, the main application module should generally remain small. Routers can be separated into individual modules for different features.
+
+For example, an application could contain routers for users, authentication, products, payments, documents, and AI services.
+
+==================================================
+3. PATH OPERATIONS
+==================
+
+A path operation connects an HTTP method and a URL path to a Python function.
+
+Example:
+
+@app.get("/users")
+async def get_users():
+return {"users": []}
+
+The HTTP method describes the type of operation.
+
+GET is commonly used to retrieve data.
+
+POST is commonly used to create or submit data.
+
+PUT is commonly used to replace or update a resource.
+
+PATCH is commonly used for partial updates.
+
+DELETE is commonly used to remove a resource.
+
+Path operation functions can return dictionaries, lists, strings, numbers, Pydantic models, or other supported response types.
+
+==================================================
+4. PATH PARAMETERS
+==================
+
+Path parameters are values included directly in the URL.
+
+Example:
+
+@app.get("/users/{user_id}")
+async def get_user(user_id: int):
+return {"user_id": user_id}
+
+If the client requests /users/42, FastAPI passes 42 into the user_id parameter.
+
+The type annotation int tells FastAPI how the value should be interpreted and validated.
+
+Path parameters are useful when identifying a specific resource.
+
+Examples include:
+
+/users/100
+/products/55
+/orders/782
+/documents/42
+
+==================================================
+5. QUERY PARAMETERS
+===================
+
+Query parameters are additional values included after a question mark in the URL.
+
+Example:
+
+@app.get("/products")
+async def get_products(
+category: str | None = None,
+limit: int = 20,
+):
+return {
+"category": category,
+"limit": limit
+}
+
+A request might look like:
+
+/products?category=books&limit=10
+
+FastAPI reads the query parameters and converts them according to the declared Python types.
+
+Query parameters are commonly used for filtering, searching, pagination, sorting, and optional configuration.
+
+==================================================
+6. REQUEST BODY
+===============
+
+A request body contains data sent from a client to the API.
+
+FastAPI commonly uses Pydantic models to describe structured request bodies.
+
+Example:
+
+from pydantic import BaseModel
+
+class UserCreate(BaseModel):
+name: str
+email: str
+age: int
+
+@app.post("/users")
+async def create_user(user: UserCreate):
+return user
+
+The client can send JSON containing name, email, and age.
+
+FastAPI uses the type declaration and Pydantic model to parse and validate the incoming data.
+
+Request body models are especially useful when an API accepts structured JSON documents.
+
+==================================================
+7. PYDANTIC VALIDATION
+======================
+
+Pydantic models describe the expected structure and types of data.
+
+For example:
+
+class Product(BaseModel):
+name: str
+price: float
+quantity: int
+
+An incoming request containing these fields can be validated against the model.
+
+Validation helps detect incorrect data before application logic runs.
+
+For example, if price is expected to be a number but the request contains an invalid value, FastAPI can return a validation error response.
+
+Validation models also make API contracts easier to understand and document.
+
+==================================================
+8. OPTIONAL FIELDS
+==================
+
+A Pydantic model can contain optional fields.
+
+Example:
+
+class UserUpdate(BaseModel):
+name: str | None = None
+email: str | None = None
+
+This allows clients to provide one field, both fields, or neither depending on the endpoint requirements.
+
+Optional fields are commonly used in PATCH operations where only part of a resource is modified.
+
+==================================================
+9. RESPONSE MODELS
+==================
+
+FastAPI can use response models to describe the expected shape of an API response.
+
+Example:
+
+class UserResponse(BaseModel):
+id: int
+name: str
+email: str
+
+@app.get("/users/{user_id}", response_model=UserResponse)
+async def get_user(user_id: int):
+return {
+"id": user_id,
+"name": "Parth",
+"email": "[user@example.com](mailto:user@example.com)"
+}
+
+Response models help validate the returned data, document the response schema, serialize the response, and limit returned fields to the declared structure.
+
+Response models are also useful from a security perspective because they can prevent unintended internal fields from being included in API responses.
+
+==================================================
+10. DEPENDENCY INJECTION
+========================
+
+FastAPI provides a dependency injection system using Depends.
+
+Dependencies are useful for reusable logic such as authentication, database sessions, configuration, permissions, pagination, and common request processing.
+
+Example:
+
+from fastapi import Depends
+
+def get_current_user():
+return {"id": 1}
+
+@app.get("/profile")
+async def profile(
+user = Depends(get_current_user)
+):
+return user
+
+FastAPI calls the dependency and provides its result to the path operation.
+
+Dependencies can also depend on other dependencies.
+
+This allows larger applications to build reusable request-processing components.
+
+==================================================
+11. AUTHENTICATION AND SECURITY
+===============================
+
+FastAPI provides security utilities that can be combined with dependency injection.
+
+Common authentication approaches include bearer tokens, API keys, HTTP basic authentication, and OAuth2-based authentication flows.
+
+A protected endpoint commonly follows a pattern such as:
+
+Client
+|
+| Authorization header
+v
+Authentication dependency
+|
+v
+Token validation
+|
+v
+Current user
+|
+v
+Protected endpoint
+
+Authentication determines who the caller is.
+
+Authorization determines what the caller is allowed to do.
+
+These two concepts should be kept separate in application design.
+
+==================================================
+12. ASYNC AND AWAIT
+===================
+
+FastAPI supports asynchronous path operation functions through async def.
+
+Example:
+
+@app.get("/data")
+async def get_data():
+result = await some_async_operation()
+return result
+
+Async functions are useful when the application frequently waits for external operations such as network requests or asynchronous database calls.
+
+If a library provides an awaitable operation, an async path operation can await that operation.
+
+If a library does not provide asynchronous support, a normal def function may be more appropriate.
+
+The important idea is that async and await are tools for handling I/O efficiently; they are not automatically a guarantee that every operation becomes faster.
+
+==================================================
+13. ERROR HANDLING
+==================
+
+FastAPI provides HTTPException for returning HTTP error responses.
+
+Example:
+
+from fastapi import HTTPException
+
+@app.get("/users/{user_id}")
+async def get_user(user_id: int):
+
+```
+user = find_user(user_id)
+
+if user is None:
+    raise HTTPException(
+        status_code=404,
+        detail="User not found"
+    )
+
+return user
+```
+
+Common API status codes include:
+
+200 for successful requests.
+
+201 for resource creation.
+
+400 for invalid requests.
+
+401 for missing or invalid authentication.
+
+403 for authenticated users who do not have permission.
+
+404 when a resource is not found.
+
+422 for validation errors in common FastAPI request-validation scenarios.
+
+500 for unexpected server errors.
+
+==================================================
+14. MIDDLEWARE
+==============
+
+Middleware is logic that can run around requests and responses.
+
+A middleware can inspect a request before the endpoint executes and can modify or inspect the response before it is returned.
+
+Middleware is useful for concerns such as:
+
+Request logging
+CORS
+Security headers
+Timing
+Request identifiers
+Authentication-related processing
+Metrics
+
+FastAPI applications can add middleware using app.add_middleware().
+
+==================================================
+15. CORS
+========
+
+Cross-Origin Resource Sharing, usually called CORS, controls whether browsers can make requests from one origin to another.
+
+A React frontend running on one origin may need to communicate with a FastAPI backend running on another origin.
+
+FastAPI applications can configure CORS using CORSMiddleware.
+
+In production, allowed origins should normally be explicitly configured rather than allowing every origin without consideration.
+
+==================================================
+16. OPENAPI AND AUTOMATIC DOCUMENTATION
+=======================================
+
+FastAPI generates an OpenAPI schema from route definitions, parameters, request models, response models, and dependencies.
+
+The OpenAPI schema describes the available API endpoints and their request and response structures.
+
+FastAPI commonly exposes interactive API documentation through Swagger UI and ReDoc.
+
+The documentation is useful during development because developers can inspect and test API endpoints without immediately writing a separate frontend client.
+
+Changes to request and response models can therefore become visible in the generated API schema.
+
+==================================================
+17. API VERSIONING
+==================
+
+Large APIs often require versioning.
+
+A simple versioning pattern is:
+
+/api/v1/users
+/api/v1/products
+
+Later a new version can be introduced:
+
+/api/v2/users
+/api/v2/products
+
+Versioning helps teams introduce breaking changes while allowing older clients to continue using an older contract.
+
+Routers can be grouped by API version to keep the application organized.
+
+==================================================
+18. APIRouter
+=============
+
+FastAPI provides APIRouter for splitting an application into multiple modules.
+
+Example structure:
+
+app/
+main.py
+routers/
+users.py
+products.py
+auth.py
+documents.py
+
+A router can contain related endpoints.
+
+The main application can include the router.
+
+This approach prevents a single main.py file from becoming very large and difficult to maintain.
+
+==================================================
+19. BACKGROUND TASKS
+====================
+
+FastAPI provides BackgroundTasks for work that can continue after an HTTP response has been sent.
+
+Examples include:
+
+Sending a simple notification.
+
+Writing a small log file.
+
+Performing lightweight processing.
+
+Triggering a non-critical follow-up operation.
+
+A background task is useful when the client does not need to wait for the task to complete before receiving the response.
+
+For heavy or distributed workloads, a dedicated task queue such as Celery or another worker system may be more appropriate.
+
+==================================================
+20. FILE UPLOADS
+================
+
+FastAPI can handle file uploads.
+
+File upload APIs are useful for:
+
+PDF documents
+Images
+CSV files
+Audio files
+Source code archives
+Training data
+
+A document-processing application could expose an endpoint such as:
+
+POST /documents/upload
+
+The backend can then:
+
+1. Receive the uploaded file.
+2. Validate the file type.
+3. Store the file.
+4. Extract text.
+5. Split the text into chunks.
+6. Generate embeddings.
+7. Store the vectors in a vector database.
+
+==================================================
+21. FASTAPI IN A RAG APPLICATION
+================================
+
+FastAPI can act as the backend API for a Retrieval-Augmented Generation system.
+
+A typical RAG backend can contain endpoints such as:
+
+POST /documents/upload
+GET /documents
+DELETE /documents/{document_id}
+POST /chat
+GET /health
+
+The upload endpoint can start document ingestion.
+
+The chat endpoint can accept a user question.
+
+The RAG pipeline can then perform:
+
+Question
+|
+v
+Query embedding
+|
+v
+Vector database search
+|
+v
+Relevant chunks
+|
+v
+Context construction
+|
+v
+Local or remote LLM
+|
+v
+Generated answer
+
+The backend can return both the answer and source information.
+
+==================================================
+22. FASTAPI WITH VECTOR DATABASES
+=================================
+
+A FastAPI application can connect to a vector database such as Qdrant.
+
+The application may initialize a reusable Qdrant client and use it for document ingestion and search.
+
+A retrieval endpoint can receive a query such as:
+
+"How does FastAPI dependency injection work?"
+
+The backend can create an embedding for the query and search the vector database.
+
+The vector database returns the nearest chunks.
+
+The application then sends those chunks to the generation model.
+
+==================================================
+23. FASTAPI WITH OLLAMA
+=======================
+
+FastAPI can also act as the backend for an application that uses Ollama for local language-model generation.
+
+A request may look like:
+
+POST /chat
+
+Request:
+
+{
+"question": "What is dependency injection?"
+}
+
+The backend can:
+
+1. Receive the question.
+2. Generate the query embedding.
+3. Search Qdrant.
+4. Build the context.
+5. Send the context and question to Ollama.
+6. Return the generated answer.
+
+This architecture keeps model calls and retrieval logic on the backend rather than exposing internal infrastructure directly to the frontend.
+
+==================================================
+24. DATABASE CONNECTIONS
+========================
+
+FastAPI applications frequently communicate with relational databases.
+
+Common database operations include:
+
+Create
+Read
+Update
+Delete
+
+Database access can be placed behind service or repository layers so that API route functions do not contain every database operation directly.
+
+Dependency injection can be used to provide database sessions or connections to request handlers.
+
+==================================================
+25. SERVICE LAYER
+=================
+
+A larger FastAPI application can use a service layer.
+
+For example:
+
+routers/
+chat.py
+
+services/
+rag_service.py
+document_service.py
+
+repositories/
+document_repository.py
+
+The router handles HTTP concerns.
+
+The service layer handles business logic.
+
+The repository layer handles persistence.
+
+This separation makes the application easier to test and maintain.
+
+==================================================
+26. LOGGING
+===========
+
+Logging helps developers understand what the application is doing.
+
+For a RAG application, useful logs can include:
+
+Request ID
+Query length
+Retrieved document IDs
+Number of retrieved chunks
+Retrieval latency
+LLM latency
+Total request latency
+Errors
+
+Logs should not accidentally contain API keys, passwords, tokens, or sensitive document contents.
+
+Structured logging is useful for production systems because logs can be searched and analyzed automatically.
+
+==================================================
+27. TESTING FASTAPI
+===================
+
+FastAPI applications should be tested at different levels.
+
+Unit tests can test individual functions.
+
+Integration tests can test the API together with dependencies.
+
+Retrieval tests can test whether expected documents are returned for known questions.
+
+RAG evaluation tests can compare expected answers or expected source documents with actual retrieval results.
+
+An example retrieval test might check that a question about dependency injection retrieves the chunk containing information about Depends.
+
+==================================================
+28. PROJECT STRUCTURE
+=====================
+
+A larger FastAPI project can be structured like:
+
+app/
+main.py
+config.py
+
+```
+routers/
+    auth.py
+    users.py
+    documents.py
+    chat.py
+
+services/
+    rag_service.py
+    document_service.py
+
+repositories/
+    document_repository.py
+
+models/
+    schemas.py
+
+clients/
+    qdrant_client.py
+    ollama_client.py
+
+utils/
+    logging.py
+```
+
+==================================================
+29. HEALTH CHECKS
+=================
+
+Production applications commonly expose health endpoints.
+
+Example:
+
+GET /health
+
+A basic health endpoint may return:
+
+{
+"status": "ok"
+}
+
+A deeper readiness check can verify dependencies such as:
+
+Qdrant connection
+Database connection
+Required model availability
+External service connectivity
+
+For an AI application, separating basic liveness from dependency readiness can make deployment monitoring more reliable.
+
+==================================================
+30. PERFORMANCE CONSIDERATIONS
+==============================
+
+FastAPI performance depends on many parts of the complete system.
+
+For a RAG application, latency can come from:
+
+Document retrieval
+Embedding generation
+Vector database search
+Context construction
+LLM generation
+Network communication
+Database queries
+
+Optimizations should be based on measurement rather than assumptions.
+
+Possible techniques include:
+
+Batching embedding operations.
+
+Caching repeated queries.
+
+Using appropriate Top-K values.
+
+Avoiding unnecessary context.
+
+Using asynchronous I/O where supported.
+
+Running heavy ingestion jobs outside the main request path.
+
+==================================================
+31. COMMON FASTAPI MISTAKES
+===========================
+
+A common mistake is putting too much business logic directly in route functions.
+
+Another mistake is using blocking operations inside an async endpoint without understanding their effect.
+
+Another mistake is returning internal database objects or sensitive fields without a deliberate response schema.
+
+Another mistake is allowing overly broad CORS configuration in production.
+
+Another mistake is putting secrets directly into source code.
+
+Another mistake is performing large document ingestion synchronously during a user-facing request instead of using a background worker or job system.
+
+==================================================
+32. RAG DOCUMENT INGESTION EXAMPLE
+==================================
+
+Suppose a user uploads a PDF.
+
+The FastAPI backend can process it as follows:
+
+POST /documents/upload
+|
+v
+Validate file
+|
+v
+Save document
+|
+v
+Extract text
+|
+v
+Chunk text
+|
+v
+Generate embeddings
+|
+v
+Store points in Qdrant
+|
+v
+Return document status
+
+The ingestion process should also store metadata such as:
+
+document_id
+file_name
+file_type
+page_number
+chunk_index
+created_at
+
+Metadata later helps with filtering, debugging, and source citations.
+
+==================================================
+33. RAG QUERY EXAMPLE
+=====================
+
+A RAG chat request can follow this process:
+
+POST /chat
+|
+v
+User question
+|
+v
+Query embedding
+|
+v
+Qdrant search
+|
+v
+Top-K chunks
+|
+v
+Context construction
+|
+v
+Ollama
+|
+v
+Grounded answer
+|
+v
+Sources
+
+==================================================
+34. GROUNDING
+=============
+
+A RAG application should instruct the generation model to use retrieved context instead of inventing unsupported facts.
+
+If the knowledge base does not contain enough information, the application can instruct the model to state that the information is unavailable.
+
+This approach reduces unsupported answers, but prompt instructions alone do not guarantee that a system will never hallucinate.
+
+Retrieval quality, context quality, model behavior, and evaluation all affect the final answer.
+
+==================================================
+35. FASTAPI AND PRODUCTION DEPLOYMENT
+=====================================
+
+A production FastAPI application may run behind a reverse proxy or load balancer.
+
+A typical deployment can contain:
+
+Client
+|
+v
+Nginx or Load Balancer
+|
+v
+FastAPI Application
+|
++---- PostgreSQL
+|
++---- Qdrant
+|
++---- Redis
+|
++---- Ollama or remote LLM
+|
++---- Object Storage
+
+Containerization with Docker can make application deployment more repeatable.
+
+Environment variables should be used for environment-specific configuration and secrets.
+
+==================================================
+36. FINAL FASTAPI SUMMARY
+=========================
+
+FastAPI provides a typed Python framework for building APIs.
+
+Its major features include:
+
+Path operations
+Path parameters
+Query parameters
+Request bodies
+Pydantic validation
+Response models
+Dependency injection
+Authentication and security utilities
+Async support
+Background tasks
+Middleware
+OpenAPI documentation
+APIRouter
+File uploads
+Testing support
+
+For an AI/RAG application, FastAPI can serve as the backend layer that connects the frontend, embedding model, Qdrant vector database, document-processing pipeline, and Ollama language model.

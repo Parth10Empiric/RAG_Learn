@@ -35,14 +35,14 @@ def load_pdf_file(file_path: str) -> str:
     
     pages = []
     
-    for page in reader.pages:
+    for page_number, page in enumerate(reader.pages, start=1):
         
         text = page.extract_text()
         
         if text:
-            pages.append(text)
+            pages.append(f"[Page {page_number}]\n{text}")
             
-    return "\n".join(pages)
+    return "\n\n".join(pages)
 
 # text = load_pdf_file("data/documents/docker.pdf")
 
