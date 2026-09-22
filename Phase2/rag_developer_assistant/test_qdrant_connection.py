@@ -1,4 +1,4 @@
-from store import client, COLLECTION_NAME
+from .store import client, COLLECTION_NAME
 
 
 print("Testing Qdrant connection...")

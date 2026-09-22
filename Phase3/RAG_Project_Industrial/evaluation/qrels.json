@@ -1,0 +1,320 @@
+{
+  "q001": {
+    "relevant": [
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 22
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 23
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 24
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 25
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 26
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 27
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 28
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 29
+      }
+    ]
+  },
+  "q002": {
+    "relevant": [
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 37
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 38
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 39
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 40
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 41
+      }
+    ]
+  },
+  "q003": {
+    "relevant": [
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 33
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 34
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 35
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 36
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 37
+      }
+    ]
+  },
+  "q004": {
+    "relevant": [
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 42
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 43
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 44
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 45
+      }
+    ]
+  },
+  "q005": {
+    "relevant": [
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 56
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 57
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 58
+      }
+    ]
+  },
+  "q006": {
+    "relevant": [
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 79
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 80
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 81
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 82
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 83
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 119
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 120
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 121
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 122
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 123
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 134
+      }
+    ]
+  },
+  "q007": {
+    "relevant": [
+      {
+        "source": "docker.pdf",
+        "chunk_index": 6
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 7
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 8
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 9
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 10
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 11
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 12
+      }
+    ]
+  },
+  "q008": {
+    "relevant": [
+      {
+        "source": "docker.pdf",
+        "chunk_index": 10
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 11
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 12
+      }
+    ]
+  },
+  "q009": {
+    "relevant": []
+  },
+  "q010": {
+    "relevant": [
+      {
+        "source": "docker.pdf",
+        "chunk_index": 46
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 47
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 48
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 49
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 50
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 51
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 52
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 57
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 58
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 59
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 60
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 61
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 62
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 63
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 64
+      }
+    ]
+  },
+  "q011": {
+    "relevant": [
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 3
+      },
+      {
+        "source": "fastapi.txt",
+        "chunk_index": 130
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 46
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 47
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 48
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 49
+      },
+      {
+        "source": "docker.pdf",
+        "chunk_index": 58
+      }
+    ]
+  },
+  "q012": {
+    "relevant": []
+  }
+}

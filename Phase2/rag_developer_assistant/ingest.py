@@ -1,7 +1,7 @@
-from loader import load_text_file, load_pdf_file
-from chunker import chunk_text
-from embedder import embed_documents
-from store import add_chunks
+from .loader import load_text_file, load_pdf_file
+from .chunker import chunk_text
+from .embedder import embed_documents
+from .store import add_chunks
 
 
 # SOURCE = "fastapi.txt"

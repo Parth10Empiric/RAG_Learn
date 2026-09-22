@@ -40,7 +40,7 @@
 import uuid
 
 from qdrant_client import QdrantClient, models
-from config import (
+from .config import (
     QDRANT_API_KEY,
     QDRANT_ENDPOINT,
 )

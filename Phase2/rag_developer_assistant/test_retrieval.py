@@ -1,4 +1,4 @@
-from retriever import retrieve
+from .retriever import retrieve
 
 
 query = "How does FastAPI validate request data?"

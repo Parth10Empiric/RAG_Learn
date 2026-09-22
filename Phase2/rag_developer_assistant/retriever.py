@@ -1,5 +1,5 @@
-from embedder import embed_query
-from store import client, COLLECTION_NAME
+from .embedder import embed_query
+from .store import client, COLLECTION_NAME
 
 
 def retrieve(query: str, top_k:int = 3):

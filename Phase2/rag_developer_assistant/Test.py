@@ -1,6 +1,6 @@
-from loader import load_text_file
-from chunker import chunk_text
-from embedder import embed_documents
+from .loader import load_text_file
+from .chunker import chunk_text
+from .embedder import embed_documents
 
 
 text = load_text_file("data/documents/fastapi.txt")

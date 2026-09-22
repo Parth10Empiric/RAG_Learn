@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q001",
+    "question": "How does FastAPI validate request bodies?",
+    "expected_sources": ["fastapi.txt"]
+  },
+  {
+    "id": "q002",
+    "question": "What is dependency injection in FastAPI?",
+    "expected_sources": ["fastapi.txt"]
+  },
+  {
+    "id": "q003",
+    "question": "What are FastAPI response models used for?",
+    "expected_sources": ["fastapi.txt"]
+  },
+  {
+    "id": "q004",
+    "question": "How does FastAPI handle authentication?",
+    "expected_sources": ["fastapi.txt"]
+  },
+  {
+    "id": "q005",
+    "question": "What is FastAPI middleware?",
+    "expected_sources": ["fastapi.txt"]
+  },
+  {
+    "id": "q006",
+    "question": "How can FastAPI be used in a RAG application?",
+    "expected_sources": ["fastapi.txt"]
+  },
+  {
+    "id": "q007",
+    "question": "What is a Docker image?",
+    "expected_sources": ["docker.pdf"]
+  },
+  {
+    "id": "q008",
+    "question": "What is a Docker container?",
+    "expected_sources": ["docker.pdf"]
+  },
+  {
+    "id": "q009",
+    "question": "What is Docker Compose used for?",
+    "expected_sources": ["docker.pdf"]
+  },
+  {
+    "id": "q010",
+    "question": "How does Docker build an application image?",
+    "expected_sources": ["docker.pdf"]
+  },
+  {
+    "id": "q011",
+    "question": "How can I create a Python API and package the application into a container?",
+    "expected_sources": ["fastapi.txt", "docker.pdf"]
+  },
+  {
+    "id": "q012",
+    "question": "How does Kubernetes schedule pods?",
+    "expected_sources": []
+  }
+]
