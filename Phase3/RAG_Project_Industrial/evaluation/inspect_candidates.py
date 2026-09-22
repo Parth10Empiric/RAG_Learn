@@ -2,16 +2,13 @@ import json
 import sys
 from pathlib import Path
 
-# Repo root (RAG_Learn) on sys.path so the Phase2 package is importable.
-sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
-
-from Phase2.rag_developer_assistant.retriever import retrieve
+from ..retriever import retrieve
 
 
 TOP_K = 10
 
 
-with open("evaluation/retrieval_questions.json","r", encoding="utf-8",) as file :
+with open("RAG_Project_Industrial/evaluation/retrieval_questions.json","r", encoding="utf-8",) as file :
     questions = json.load(file)
     
     
@@ -26,6 +23,7 @@ for item in questions:
     results = retrieve(
         query=item["question"],
         top_k=TOP_K,
+        score_threshold=None,
     )
 
     for rank, point in enumerate(

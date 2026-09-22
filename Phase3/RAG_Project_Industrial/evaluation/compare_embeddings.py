@@ -5,10 +5,7 @@ from pathlib import Path
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-# Repo root (RAG_Learn) on sys.path so the Phase2 package is importable.
-sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
-
-from Phase2.rag_developer_assistant.store import client, COLLECTION_NAME
+from ..store import client, COLLECTION_NAME
 
 MODELS = {
     "minilm": "sentence-transformers/all-MiniLM-L6-v2",

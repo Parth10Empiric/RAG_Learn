@@ -18,6 +18,7 @@ def evaluate_query(
     results = retrieve(
         query=question,
         top_k=max(K_VALUES),
+        score_threshold=None,
     )
     
     retrieved_keys = [
