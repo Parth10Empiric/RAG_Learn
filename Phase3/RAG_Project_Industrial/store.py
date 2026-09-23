@@ -38,6 +38,7 @@
 
 
 import uuid
+from pathlib import Path
 
 from qdrant_client import QdrantClient, models
 from .config import (
@@ -49,7 +50,23 @@ from .config import (
 COLLECTION_NAME = "developer_knowledge_v1"
 VECTOR_SIZE = 384
 
+
 client = QdrantClient(url=QDRANT_ENDPOINT, api_key=QDRANT_API_KEY, timeout=30)
+
+def ensure_payload_indexes():
+    fields = {
+        "document_id": models.PayloadSchemaType.KEYWORD,
+        "source": models.PayloadSchemaType.KEYWORD,
+        "file_type": models.PayloadSchemaType.KEYWORD,
+        "chunk_type": models.PayloadSchemaType.KEYWORD,
+    }
+
+    for field_name, field_type in fields.items():
+        client.create_payload_index(
+            collection_name=COLLECTION_NAME,
+            field_name=field_name,
+            field_schema=field_type,
+        )
 
 def ensure_collection():
     """
@@ -60,27 +77,21 @@ def ensure_collection():
         collection_name=COLLECTION_NAME
     )
 
-    if exists:
-        print(
-            f"Collection '{COLLECTION_NAME}' already exists."
+    if not exists:
+
+        client.create_collection(
+            collection_name=COLLECTION_NAME,
+            vectors_config=models.VectorParams(
+                size=VECTOR_SIZE,
+                distance=models.Distance.COSINE,
+            ),
         )
-        return
+        
+        print(
+            f"Collection '{COLLECTION_NAME}' created."
+        )
 
-    print(
-        f"Creating collection '{COLLECTION_NAME}'..."
-    )
-
-    client.create_collection(
-        collection_name=COLLECTION_NAME,
-        vectors_config=models.VectorParams(
-            size=VECTOR_SIZE,
-            distance=models.Distance.COSINE,
-        ),
-    )
-
-    print(
-        f"Collection '{COLLECTION_NAME}' created."
-    )
+    ensure_payload_indexes()
 
 def add_chunks(
     chunks: list[str],
@@ -100,6 +111,7 @@ def add_chunks(
                 f"{source}:{i}",
             )
         )
+        file_path = Path(source)
 
         points.append(
             models.PointStruct(
@@ -108,6 +120,9 @@ def add_chunks(
                 payload={
                     "text": chunk,
                     "source": source,
+                    "document_id": file_path.stem,
+                    "file_type": file_path.suffix.lower().replace(".", ""),
+                    "chunk_type": "text",
                     "chunk_index": i,
                 },
             )
@@ -119,3 +134,4 @@ def add_chunks(
         wait=True,
     )
 
+    

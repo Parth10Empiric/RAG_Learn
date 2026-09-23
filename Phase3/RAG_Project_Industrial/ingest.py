@@ -1,17 +1,22 @@
+from pathlib import Path
+
 from .loader import load_text_file, load_pdf_file
 from .chunker import chunk_text
 from .embedder import embed_documents
 from .store import add_chunks
 
 
-# SOURCE = "fastapi.txt"
-# PATH = "data/documents/fastapi.txt"
-SOURCE = "docker.pdf"
-PATH = "data/documents/docker.pdf"
+# Documents live inside the package, so resolve them from this file
+# rather than from the current working directory.
+DATA_DIR = Path(__file__).resolve().parent / "data" / "documents"
+
+SOURCE = "fastapi.txt"
+# SOURCE = "docker.pdf"
+PATH = DATA_DIR / SOURCE
 
 # 1. Load
-# text = load_text_file(PATH)
-text = load_pdf_file(PATH)
+text = load_text_file(PATH)
+# text = load_pdf_file(PATH)
 
 print(f"Loaded {SOURCE}")
 print(f"Characters: {len(text)}")
