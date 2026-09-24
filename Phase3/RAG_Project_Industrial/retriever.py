@@ -1,6 +1,6 @@
-from .config import TOP_K, SCORE_THRESHOLD
-from .embedder import embed_query
-from .store import client, COLLECTION_NAME
+from config import TOP_K, SCORE_THRESHOLD
+from embedder import embed_query
+from store import client, COLLECTION_NAME
 from qdrant_client import models
 
 def retrieve(
