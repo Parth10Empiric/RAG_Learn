@@ -1,5 +1,6 @@
 import json
 from collections import defaultdict
+from src.test_multi_query_retriever import multi_query_retrieve
 
 from inspect_candidates import retrieve
 
@@ -21,12 +22,22 @@ def evaluate_query(
         score_threshold=None,
     )
     
+    multi_result = multi_query_retrieve(
+        query=question,
+        num_queries=3,
+        top_k_per_query=10,
+        final_k=10,
+        score_threshold=0.30,
+    )
+
+    multi_results = multi_result["results"]
+    
     retrieved_keys = [
         make_key(
             point.payload["source"],
             point.payload["chunk_index"],
         )
-        for point in results
+        for point in multi_results
     ]
     
     gold_keys = {
